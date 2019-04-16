@@ -1,36 +1,85 @@
 \documentclass{article}
-\usepackage[spanish]{babel}
-\usepackage{graphicx}
-\usepackage{xcolor}
 \usepackage[utf8]{inputenc}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{enumitem}
-\usepackage{listings}
-\usepackage{float}
-\usepackage{verbatim}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
-\pagestyle{fancy}
-\fancyhf{}
-\rfoot{Page \thepage\hspace{1pt} de~\pageref{LastPage}}
 
-\title{Proyecto de Administración de Base de Datos}
-\author{Guillermo López García}
+\title{Proyecto videoclub ABD}
+\author{
+Guillermo López García\\
+Daniel Gil Bustillo \\
+Alejandro Segovia Gallardo
+}
+
+
 \begin{document}
 
-%\lstset{language=, texcl=true}
-%\begin{lstlisting}[frame=single]
-%\end{lstlisting}
+\maketitle
 
-\textbf{}
-\begin{enumerate}
-    \item sljfgjsdskjg
-        \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.7\linewidth]{}
-        \caption{ljasdnfkjlasndklfnas}
-        \end{figure}
-        \verbatiminput{asjbdfjasjdf.txt}
-\end{enumerate}
+\section{Introduction}
+
+\subsection{Descripción de la base de datos}
+El proyecto a desarrollar durante el transcurso del semestre será una base de datos orientada a la organización y gestión de todos los datos requeridos para el correcto funcionamiento de un videoclub y tratamiento de datos de los clientes y empleados del mismo así como el contenido que soporta.
+
+\subsection{Motivación del proyecto}
+La motivación principal del proyecto es el aprendizaje adquirido durante la realización del mismo así como la experiencia adquirida en el tratamiento de datos de caracter personal como pueden ser los pertenecientes a clientes y empleados del mismo.
+
+\section{Arquitectura de la base de datos}
+
+\subsection{Diagrama de la base de datos}
+\includegraphics[width=\textwidth]{Diagrama}
+
+\subsection{Explicación de las tablas utilizadas}
+A continuación se detallarán las tablas pertenecientes al diagrama.
+\subsubsection{Roles}
+Tabla identificativa de los diferentes roles que un usuario puede tener en el sistema.
+\subsubsection{User\_Roles}
+Tabla de relación entre un usuario del sistema y el rol que desempeña en el mismo.
+\subsubsection{User}
+Tabla identificativa que almacenará los datos pertenecientes a un usuario participante en el sistema.
+\subsubsection{Workers}
+Tabla de expansión que contendrá los usuarios especializados como trabajadores del videoclub, junto a los datos de especialización.
+\subsubsection{Clients}
+Analogamente a Workers, tabla de expansión que contendrá los usuarios especializados como clientres del videoclub, junto a los datos de especialización requeridos.
+\subsubsection{Salaries}
+Tabla identificativa que contendrá la información relacionada con los salarios de los trabajadores contratados en el sistema. Los contenidos de dicha tabla estarán auto generados mediante una función interna de la BBDD.
+\subsubsection{Suppliers}
+Tabla identificativa de los proveedores del videoclub.
+\subsubsection{Supplier\_Products}
+Tabla de relación entre un proveedor y un producto del videclub a la venta/alquiler.
+\subsubsection{Products}
+Tabla identificativa que contendrá los datos de un producto disponible en el videoclub.
+\subsubsection{Categories}
+Tabla identificativa de las diferentes categorías existentes en el videoclub, puede estar relacionada consigo misma para generar jerarquías dentro de cualquier categoría dada.
+\subsubsection{Products\_Categories}
+Tabla identificativa que contendrá la categoria asociada a un producto, pudiendo este tener varios tipos.
+\subsubsection{Orders}
+Tabla identificativa que almacenará los datos necesarios para la indentificación de los miembros implicados en un pedido.
+\subsubsection{Order\_Products}
+Tabla de relación entre un pedido concreto y los productos asociados a dicho pedido, simplificando el concepto, actuará como carrito.
+\subsubsection{Status}
+Tabla identificativa que contendrá el estado asociado a un pedido concreto.
+\\
+\\
+\subsection{Usuarios implicados}
+\subsubsection{Principal}
+Adiministrador del videoclub, tendrá todos los permisos disponibles.
+
+\subsubsection{Colaborador}
+Administradores secundarios, tendrán permisos de selección y edición exclusivamente.
+
+\subsubsection{Eventual}
+Empleados del videoclub, solo tendrán permisos de selección para comprobaciones. 
+
+\subsubsection{Junior}
+Empleado del videoclub, será el encargado de realizar y mantener la integridad de los productos del videoclub, pudiendo actualizar, crear o eliminar cualquier producto.
+
+\subsubsection{Externo}
+Clientes del videoclub que podrán acceder a la base de datos para observar los pedidos, que han realizado a través de la aplicación.
+
+
+\subsubsection{Principal secundario}
+Adiministrador secundario del videoclub, tendrá todos los permisos disponibles, será utilizado cuando el administrador principal no esté disponible.
+ 
 
 \end{document}
