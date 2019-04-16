@@ -26,10 +26,13 @@ create table users_roles(
 
 create table workers(
 	id bigint primary key,
-	user_id bigint,
+	name varchar(255),
+	surname varchar(255),
+	dni varchar(9),
+	phone varchar(255),
+	email varchar(255),
 	iban varchar(255),
 	ss varchar(255),
-	foreign key (user_id) references users(id)
 );
 
 create table salaries(
