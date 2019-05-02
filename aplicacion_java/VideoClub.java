@@ -7,15 +7,15 @@ public class VideoClub
 
     public Set<Producto> listarProductos()
     {
-        Set<Producto> listaProductos = new Set<Producto>;
+        Set<Producto> listaProductos = new Set<Producto>();
 
         Map<String, String> env = this.pb.environment();
-        String host = env.get('HOST_DB');
-        String dbname = env.get('DB_NAME');
-        String dbuser = env.get('DB_USER');
-        String dbpass = env.get('DB_PASS');
+        String host = env.get("HOST_DB");
+        String dbname = env.get("DB_NAME");
+        String dbuser = env.get("DB_USER");
+        String dbpass = env.get("DB_PASS");
 
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + '/' + dbname, dbuser, dbpass);
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
 
         String query = "select * from products ";
         PreparedStatement sentencia = conexion.prepareStatement(query);
@@ -34,15 +34,15 @@ public class VideoClub
 
     public Set<Categoria> listarCategorias()
     {
-        Set<Producto> listaCategorias = new Set<Categoria>;
+        Set<Producto> listaCategorias = new Set<Categoria>();
 
         Map<String, String> env = this.pb.environment();
-        String host = env.get('HOST_DB');
-        String dbname = env.get('DB_NAME');
-        String dbuser = env.get('DB_USER');
-        String dbpass = env.get('DB_PASS');
+        String host = env.get("HOST_DB");
+        String dbname = env.get("DB_NAME");
+        String dbuser = env.get("DB_USER");
+        String dbpass = env.get("DB_PASS");
 
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + '/' + dbname, dbuser, dbpass);
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
 
         String query = "select * from categories ";
         PreparedStatement sentencia = conexion.prepareStatement(query);

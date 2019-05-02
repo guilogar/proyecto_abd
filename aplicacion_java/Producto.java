@@ -19,12 +19,12 @@ public class Producto
         if(columnas.length > 0 && valores.length > 0 && columnas.length == valores.length)
         {
             Map<String, String> env = this.pb.environment();
-            String host = env.get('HOST_DB');
-            String dbname = env.get('DB_NAME');
-            String dbuser = env.get('DB_USER');
-            String dbpass = env.get('DB_PASS');
+            String host = env.get("HOST_DB");
+            String dbname = env.get("DB_NAME");
+            String dbuser = env.get("DB_USER");
+            String dbpass = env.get("DB_PASS");
 
-            Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + '/' + dbname, dbuser, dbpass);
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
 
             String query = "update products set ";
             for (int i = 0; i < columnas.length; i++)
@@ -40,8 +40,8 @@ public class Producto
             {
                 sentencia.setString(v+1, valores[v]);
             }
-            sentencia.setString(++v, this.id);
-            sentencia.setString(++v, this.code);
+            sentencia.setString(++v, (String) this.id);
+            sentencia.setString(++v, (String) this.code);
 
             ResultSet rs = sentencia.executeUpdate();
 
@@ -57,12 +57,12 @@ public class Producto
     public ResultSet getAttributes()
     {
         Map<String, String> env = this.pb.environment();
-        String host = env.get('HOST_DB');
-        String dbname = env.get('DB_NAME');
-        String dbuser = env.get('DB_USER');
-        String dbpass = env.get('DB_PASS');
+        String host = env.get("HOST_DB");
+        String dbname = env.get("DB_NAME");
+        String dbuser = env.get("DB_USER");
+        String dbpass = env.get("DB_PASS");
 
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + '/' + dbname, dbuser, dbpass);
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
 
         String query = "select * from products where id = ? and code = ? ";
         PreparedStatement sentencia = conexion.prepareStatement(query);
@@ -76,12 +76,12 @@ public class Producto
     public void deleteProduct()
     {
         Map<String, String> env = this.pb.environment();
-        String host = env.get('HOST_DB');
-        String dbname = env.get('DB_NAME');
-        String dbuser = env.get('DB_USER');
-        String dbpass = env.get('DB_PASS');
+        String host = env.get("HOST_DB");
+        String dbname = env.get("DB_NAME");
+        String dbuser = env.get("DB_USER");
+        String dbpass = env.get("DB_PASS");
 
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + '/' + dbname, dbuser, dbpass);
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
 
         String query = "delete from products where id = ? and code = ? ";
         PreparedStatement sentencia = conexion.prepareStatement(query);
