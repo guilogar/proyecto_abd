@@ -32,7 +32,7 @@ create table workers(
 	phone varchar(255),
 	email varchar(255),
 	iban varchar(255),
-	ss varchar(255),
+	ss varchar(255)
 );
 
 create table salaries(
