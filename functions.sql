@@ -27,7 +27,7 @@ delimiter ;
 
 /* Comprueba si existe un producto */
 delimiter //
-create function exist(cadena varchar(100)) returns boolean
+create function productExist(cadena varchar(255)) returns boolean
 begin
     declare num_rows int;
     declare existe   boolean;
