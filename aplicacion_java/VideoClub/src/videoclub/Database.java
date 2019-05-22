@@ -16,19 +16,20 @@ import java.util.Map;
  *
  * @author oem
  */
-public class ObjectVideoClub {
+public class Database
+{
     
     private ProcessBuilder pb;
     private Map<String, String> env;
     private Connection con;
     
-    public ObjectVideoClub(ProcessBuilder pb) throws SQLException
+    public Database(ProcessBuilder pb) throws SQLException
     {
         this.pb = pb;
         this.env = pb.environment();
     }
     
-    public ObjectVideoClub(ProcessBuilder pb, boolean createConnection) throws SQLException
+    public Database(ProcessBuilder pb, boolean createConnection) throws SQLException
     {
         this.pb = pb;
         this.env = pb.environment();

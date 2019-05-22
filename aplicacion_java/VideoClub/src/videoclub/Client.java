@@ -9,6 +9,6 @@ package videoclub;
  *
  * @author oem
  */
-public class Users {
+public class Client {
     
 }

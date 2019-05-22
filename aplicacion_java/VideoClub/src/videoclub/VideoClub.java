@@ -11,11 +11,12 @@ package videoclub;
  */
 import java.util.Map;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VideoClub
 {
-    private ProcessBuilder pb;
-
+/*
     public Set<Producto> listarProductos()
     {
         Set<Producto> listaProductos = new Set<Producto>();
@@ -42,41 +43,48 @@ public class VideoClub
 
         return listaProductos;
     }
-
-    public Set<Categoria> listarCategorias()
+*/
+    public static ArrayList<Category> listarCategorias(Database db) throws SQLException
     {
-        Set<Producto> listaCategorias = new Set<Categoria>();
-
-        Map<String, String> env = this.pb.environment();
-        String host = env.get("HOST_DB");
-        String dbname = env.get("DB_NAME");
-        String dbuser = env.get("DB_USER");
-        String dbpass = env.get("DB_PASS");
-
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
-
-        String query = "select * from categories ";
-        PreparedStatement sentencia = conexion.prepareStatement(query);
-        ResultSet rs = sentencia.executeQuery();
-
-        while(rs.next())
+        ArrayList<Category> lista = new ArrayList<Category>();
+        
+        if(db.createConnection())
         {
-            int id = (int) rs.getObject("id");
-            Categoria c = new Categoria(id, this.pb);
-            listaCategorias.add(p);
-        }
+            ResultSet rs = db.selectByTable("categories");
 
-        return listaProductos;
+            while(rs.next())
+            {
+                long id = (long) rs.getObject("id");
+                Category c = new Category(db, id);
+                lista.add(c);
+                
+                ArrayList<Product> productos = c.listarProductos();
+                
+                for(Product p: productos)
+                {
+                    HashMap<String, Object> ap = p.getAttributes();
+                    System.out.println("Producto => " + ap.get("name"));
+                }
+            }
+        } else
+        {
+            System.out.println("Error inesperado");
+        }
+        
+        return lista;
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws SQLException
     {
-        this.pb = new ProcessBuilder();
-        Map<String, String> env = this.pb.environment();
-        env.put("HOST_DB", "HOST_DB");
-        env.put("DB_NAME", "DB_NAME");
-        env.put("DB_USER", "DB_USER");
-        env.put("DB_PASS", "DB_PASS");
-
+        ProcessBuilder pb = new ProcessBuilder();
+        Map<String, String> env = pb.environment();
+        env.put("DB_HOST", "localhost");
+        env.put("DB_NAME", "videoclub");
+        env.put("DB_USER", "usuario");
+        env.put("DB_PASS", "usuario");
+        
+        Database db = new Database(pb);
+        
+        listarCategorias(db);
     }
 }
