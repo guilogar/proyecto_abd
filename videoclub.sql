@@ -14,7 +14,7 @@ create table users(
 
 create table roles(
 	id bigint primary key,
-	string varchar(255)
+	name varchar(255)
 );
 
 create table users_roles(
@@ -32,7 +32,7 @@ create table workers(
 	phone varchar(255),
 	email varchar(255),
 	iban varchar(255),
-	ss varchar(255)
+	ss varchar(255),
 );
 
 create table salaries(
