@@ -12,13 +12,13 @@ package videoclub;
 import java.util.Map;
 import java.sql.*;
 
-public class Producto
+public class Products
 {
     private int id;
     private String code;
     private ProcessBuilder pb;
 
-    public Producto(int id, String code, ProcessBuilder pb)
+    public Products(int id, String code, ProcessBuilder pb)
     {
         this.id = id;
         this.code = code;
