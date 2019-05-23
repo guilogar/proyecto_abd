@@ -17,37 +17,9 @@ import java.util.HashMap;
 
 public class VideoClub
 {
-/*
-    public Set<Producto> listarProductos()
-    {
-        Set<Producto> listaProductos = new Set<Producto>();
-
-        Map<String, String> env = this.pb.environment();
-        String host = env.get("HOST_DB");
-        String dbname = env.get("DB_NAME");
-        String dbuser = env.get("DB_USER");
-        String dbpass = env.get("DB_PASS");
-
-        Connection conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
-
-        String query = "select * from products ";
-        PreparedStatement sentencia = conexion.prepareStatement(query);
-        ResultSet rs = sentencia.executeQuery();
-
-        while(rs.next())
-        {
-            int id = (int) rs.getObject("id");
-            String code = (String) rs.getObject("code");
-            Producto p = new Producto(id, code, this.pb);
-            listaProductos.add(p);
-        }
-
-        return listaProductos;
-    }
-*/
     public static ArrayList<Category> listarCategorias(Database db) throws SQLException
     {
-        ArrayList<Category> lista = new ArrayList<Category>();
+        ArrayList<Category> lista = new ArrayList<>();
         
         if(db.createConnection())
         {
@@ -59,13 +31,14 @@ public class VideoClub
                 Category c = new Category(db, id);
                 lista.add(c);
                 
+                /*
                 ArrayList<Product> productos = c.listarProductos();
                 
                 for(Product p: productos)
                 {
                     HashMap<String, Object> ap = p.getAttributes();
-                    System.out.println("Producto => " + ap.get("name"));
                 }
+                */
             }
         } else
         {
@@ -121,8 +94,8 @@ public class VideoClub
             
             Order o = Order.crearOrder(db, columns, values, productos);
             
-            // c.destroyCategory();
-            // p.destroyProduct();
+            c.destroyCategory();
+            p.destroyProduct();
             o.destroyOrder();
         } catch(Exception ex)
         {
