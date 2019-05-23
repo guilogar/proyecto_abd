@@ -125,7 +125,10 @@ public class Database
                     query += columns[i] + " is ? " + condi;
             }
             
-            query += columns[columns.length - 1] + " = ? ";
+            if(values[columns.length - 1] != null)
+                query += columns[columns.length - 1] + " = ? ";
+            else
+                query += columns[columns.length - 1] + " is ? ";
             
             PreparedStatement ps = con.prepareStatement(query);
             
@@ -232,7 +235,10 @@ public class Database
                     query += columnsConditions[i] + " is ? " + condi;
             }
             
-            query += columnsConditions[columnsConditions.length - 1] + " = ? ";
+            if(valuesConditions[columnsConditions.length - 1] != null)
+                query += columnsConditions[columnsConditions.length - 1] + " = ? ";
+            else
+                query += columnsConditions[columnsConditions.length - 1] + " is ? ";
             
             PreparedStatement ps = con.prepareStatement(query);
             
@@ -291,7 +297,11 @@ public class Database
                     query += columns[i] + " is ? " + condi;
             }
             
-            query += columns[columns.length - 1] + " = ? ";
+            if(values[columns.length - 1] != null)
+                query += columns[columns.length - 1] + " = ? ";
+            else
+                query += columns[columns.length - 1] + " is ? ";
+            
             PreparedStatement ps = con.prepareStatement(query);
             
             int i = 1;

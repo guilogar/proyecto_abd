@@ -27,6 +27,11 @@ public class Product
         this.id = product_id;
     }
     
+    public boolean equals(Product p)
+    {
+        return this.id == p.getID();
+    }
+    
     public Long getID()
     {
         return this.id;

@@ -88,9 +88,10 @@ public class VideoClub
         {
             Database db = new Database(pb);
             //listarCategorias(db);
-
+            
+            long id = 19;
             String[] columns = new String[] { "id", "category_id", "name" };
-            Object[] values  = new Object[] { 5, null, "Videojuegos"};
+            Object[] values  = new Object[] { id, null, "Videojuegos"};
 
             Category c = Category.crearCategoria(db, columns, values);
 
@@ -99,30 +100,34 @@ public class VideoClub
             
             values[2] = "Videojuegos para alquilar";
             c.updateCategory(columns, values);
-            long id            =  3;
-            String code        = "1";
-            String name        = "Nico nico niii";
-            String description = "Baka baka hentai!";
-            Double price       = 25.5;
-            Integer stock      = 6;
-
+            
             Instant t = Instant.now(); long miliseconds = t.toEpochMilli();
             Date date          = new Date(miliseconds);
 
             columns = new String[] { "id", "code", "name", "description", "price", "stock", "date" };
-            values  = new Object[] { id, code, name, description, price, stock, date };
+            values  = new Object[] { id, "1", "Nico nico niii", "Baka baka hentai!", 25.5, 6, date };
             //Product p = Product.crearProducto(db, columns, values);
             Product p = c.crearProducto(columns, values);
 
             HashMap<String, Object> ap = p.getAttributes();
             System.out.println("Producto => " + ap.get("name"));
             
-            c.destroyCategory();
-            p.destroyProduct();
+            columns = new String[] { "id", "status_id", "client_id", "worker_id", "code", "created_at", "start_at", "end_at", "delivered_at", "discount" };
+            values  = new Object[] {  id, 1, 1, 1, "5", date, date, date, date, null };
+            
+            HashMap<Product, Long> productos = new HashMap<> ();
+            productos.put(p, 2L);
+            productos.put(p, 6L);
+            
+            Order o = Order.crearOrder(db, columns, values, productos);
+            
+            // c.destroyCategory();
+            // p.destroyProduct();
+            o.destroyOrder();
         } catch(Exception ex)
         {
             System.err.println(ex.getMessage());
-            //throw ex;
+            throw ex;
         }
     }
 }
