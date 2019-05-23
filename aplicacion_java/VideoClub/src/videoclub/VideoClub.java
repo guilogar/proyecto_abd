@@ -97,6 +97,7 @@ public class VideoClub
             HashMap<String, Object> ac = c.getAttributes();
             System.out.println("Categoria => " + ac.get("name"));
             
+            values[2] = "Videojuegos para alquilar";
             c.updateCategory(columns, values);
             long id            =  3;
             String code        = "1";
@@ -118,6 +119,7 @@ public class VideoClub
         } catch(Exception ex)
         {
             System.err.println(ex.getMessage());
+            throw ex;
         }
     }
 }

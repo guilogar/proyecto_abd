@@ -8,7 +8,9 @@ package videoclub;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -35,7 +37,7 @@ public class Product
         HashMap<String, Object> atributos = new HashMap<String, Object>();
         this.db.createConnection();
         
-        String table     = "products";
+        String table     = " products ";
         String[] columns = { "id" };
         Long[] values    = { this.id };
         String[] conditions = {};
@@ -62,6 +64,45 @@ public class Product
         this.db.destroyConnection();
         
         return atributos;
+    }
+    
+    public HashMap<String, Object> updateProduct(String[] columns, Object[] values) throws SQLException
+    {
+        HashMap<String, Object> atributos = getAttributes();
+        this.db.createConnection();
+        
+        Set<String> k        = atributos.keySet();
+        Collection<Object> v = (Collection<Object>) atributos.values();
+        
+        String[] columnsConditions = (String[]) k.toArray(new String[0]);
+        Object[] valuesConditions  = (Object[]) v.toArray();
+        
+        String table = " products ";
+        this.db.updateInTable(table, columns, values, columnsConditions, valuesConditions, true);
+        
+        atributos = getAttributes();
+        
+        this.db.destroyConnection();
+        return atributos;
+    }
+    
+    public boolean destroyProducts() throws SQLException
+    {
+        HashMap<String, Object> atributos = getAttributes();
+        this.db.createConnection();
+        
+        Set<String> k        = atributos.keySet();
+        Collection<Object> v = (Collection<Object>) atributos.values();
+        
+        String[] columnsConditions = (String[]) k.toArray(new String[0]);
+        Object[] valuesConditions  = (Object[]) v.toArray();
+        
+        String table = " products ";
+        
+        int cambios = this.db.deleteInTable(table, columnsConditions, valuesConditions, true);
+        
+        this.db.destroyConnection();
+        return (cambios > 0);
     }
     
     public static Product crearProducto(Database db, String[] columns, Object[] values) throws SQLException

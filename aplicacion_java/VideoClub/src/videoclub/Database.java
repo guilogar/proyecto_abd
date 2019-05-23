@@ -47,7 +47,10 @@ public class Database
             String dbuser = this.env.get("DB_USER");
             String dbpass = this.env.get("DB_PASS");
             
-            this.con = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass);
+            if(this.con == null || this.con.isClosed())
+                this.con = DriverManager.getConnection(
+                        "jdbc:mysql://" + host + "/" + dbname, dbuser, dbpass
+                );
             return true;
         } catch(Exception ex)
         {
@@ -114,10 +117,12 @@ public class Database
             
             for (int i = 0; i < columns.length - 1; i++)
             {
+                String condi = (conditions.length > 0) ? conditions[i] : "";
+                
                 if(values[i] != null)
-                    query += columns[i] + " = ? " + conditions[i];
+                    query += columns[i] + " = ? " + condi;
                 else
-                    query += columns[i] + " is ? " + conditions[i];
+                    query += columns[i] + " is ? " + condi;
             }
             
             query += columns[columns.length - 1] + " = ? ";
@@ -182,6 +187,19 @@ public class Database
     
     public int updateInTable(String table, String[] columns, Object[] values,
                            String[] columnsConditions, Object[] valuesConditions,
+                           boolean condi) throws SQLException
+    {
+        String[] conditions = new String[columns.length];
+        for (int i = 0; i < conditions.length; i++)
+        {
+            if(condi) conditions[i] = " and ";
+            else      conditions[i] = " or ";
+        }
+        return updateInTable(this.con, table, columns, values, columnsConditions, valuesConditions, conditions);
+    }
+    
+    public int updateInTable(String table, String[] columns, Object[] values,
+                           String[] columnsConditions, Object[] valuesConditions,
                            String[] conditions) throws SQLException
     {
         return updateInTable(this.con, table, columns, values, columnsConditions, valuesConditions, conditions);
@@ -207,10 +225,11 @@ public class Database
             
             for (int i = 0; i < columnsConditions.length - 1; i++)
             {
+                String condi = (conditions.length > 0) ? conditions[i] : "";
                 if(valuesConditions[i] != null)
-                    query += columnsConditions[i] + " = ?, ";
+                    query += columnsConditions[i] + " = ? " + condi;
                 else
-                    query += columnsConditions[i] + " is ?, ";
+                    query += columnsConditions[i] + " is ? " + condi;
             }
             
             query += columnsConditions[columnsConditions.length - 1] + " = ? ";
@@ -233,15 +252,28 @@ public class Database
         return cambios;
     }
     
-    public int deleteInTable(String table, String[]
-                             columns, Object[] values, String[] conditions)
+    public int deleteInTable(String table, String[] columns, Object[] values,
+                             boolean condi)
+                             throws SQLException
+    {
+        String[] conditions = new String[columns.length];
+        for (int i = 0; i < conditions.length; i++)
+        {
+            if(condi) conditions[i] = " and ";
+            else      conditions[i] = " or ";
+        }
+        return deleteInTable(this.con, table, columns, values, conditions);
+    }
+    
+    public int deleteInTable(String table, String[] columns, Object[] values,
+                             String[] conditions)
                              throws SQLException
     {
         return deleteInTable(this.con, table, columns, values, conditions);
     }
     
-    public int deleteInTable(Connection con, String table, String[]
-                             columns, Object[] values, String[] conditions)
+    public int deleteInTable(Connection con, String table, String[] columns,
+                             Object[] values, String[] conditions)
                              throws SQLException
     {
         int cambios = 0;
@@ -252,10 +284,11 @@ public class Database
             
             for (int i = 0; i < columns.length - 1; i++)
             {
+                String condi = (conditions.length > 0) ? conditions[i] : "";
                 if(values[i] != null)
-                    query += columns[i] + " = ? " + conditions[i];
+                    query += columns[i] + " = ? " + condi;
                 else
-                    query += columns[i] + " is ? " + conditions[i];
+                    query += columns[i] + " is ? " + condi;
             }
             
             query += columns[columns.length - 1] + " = ? ";

@@ -37,7 +37,7 @@ public class Category
         HashMap<String, Object> atributos = new HashMap<String, Object>();
         this.db.createConnection();
         
-        String table     = "categories";
+        String table     = " categories ";
         String[] columns = { "id" };
         Long[] values    = { this.id };
         String[] conditions = {};
@@ -61,24 +61,40 @@ public class Category
     public HashMap<String, Object> updateCategory(String[] columns, Object[] values) throws SQLException
     {
         HashMap<String, Object> atributos = getAttributes();
+        this.db.createConnection();
         
-        Set<String> k  = atributos.keySet();
+        Set<String> k        = atributos.keySet();
         Collection<Object> v = (Collection<Object>) atributos.values();
         
-        String[] columnsConditions = (String[]) k.toArray();
+        String[] columnsConditions = (String[]) k.toArray(new String[0]);
         Object[] valuesConditions  = (Object[]) v.toArray();
         
         String table = " categories ";
-        ResultSet rs = this.db.searchInTableByValue(table, columnsConditions, valuesConditions, true);
+        this.db.updateInTable(table, columns, values, columnsConditions, valuesConditions, true);
         
-        System.out.println(rs.next());
+        atributos = getAttributes();
         
-        return getAttributes();
+        this.db.destroyConnection();
+        return atributos;
     }
     
-    public boolean destroyCategory()
+    public boolean destroyCategory() throws SQLException
     {
-        return false;
+        HashMap<String, Object> atributos = getAttributes();
+        this.db.createConnection();
+        
+        Set<String> k        = atributos.keySet();
+        Collection<Object> v = (Collection<Object>) atributos.values();
+        
+        String[] columnsConditions = (String[]) k.toArray(new String[0]);
+        Object[] valuesConditions  = (Object[]) v.toArray();
+        
+        String table = " categories ";
+        
+        int cambios = this.db.deleteInTable(table, columnsConditions, valuesConditions, true);
+        
+        this.db.destroyConnection();
+        return (cambios > 0);
     }
     
     public ArrayList<Product> listarProductos() throws SQLException
