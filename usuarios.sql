@@ -13,7 +13,6 @@ grant all privileges on videoclub.orders to principalSecundario;
 create user colaborador identified by 'colaborador';
 grant select, update on videoclub.* to colaborador;
 
-
 --------------------------------------------------
 
 create user eventual identified by 'eventual';

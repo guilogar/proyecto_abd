@@ -121,4 +121,3 @@ create table suppliers_products(
 	foreign key (product_id) references products(id),
 	foreign key (supplier_id) references suppliers(id)
 );
-
