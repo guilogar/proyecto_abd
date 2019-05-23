@@ -8,6 +8,7 @@ package videoclub;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -24,6 +25,11 @@ public class Category
     {
         this.db = db;
         this.id = id;
+    }
+    
+    public Long getID()
+    {
+        return this.id;
     }
     
     public HashMap<String, Object> getAttributes() throws SQLException
@@ -52,6 +58,29 @@ public class Category
         return atributos;
     }
     
+    public HashMap<String, Object> updateCategory(String[] columns, Object[] values) throws SQLException
+    {
+        HashMap<String, Object> atributos = getAttributes();
+        
+        Set<String> k  = atributos.keySet();
+        Collection<Object> v = (Collection<Object>) atributos.values();
+        
+        String[] columnsConditions = (String[]) k.toArray();
+        Object[] valuesConditions  = (Object[]) v.toArray();
+        
+        String table = " categories ";
+        ResultSet rs = this.db.searchInTableByValue(table, columnsConditions, valuesConditions, true);
+        
+        System.out.println(rs.next());
+        
+        return getAttributes();
+    }
+    
+    public boolean destroyCategory()
+    {
+        return false;
+    }
+    
     public ArrayList<Product> listarProductos() throws SQLException
     {
         ArrayList<Product> productos = new ArrayList<Product>();
@@ -73,5 +102,54 @@ public class Category
         this.db.destroyConnection();
         
         return productos;
+    }
+    
+    public Product crearProducto(String[] columns, Object[] values) throws SQLException
+    {
+        int cambios = 0;
+        
+        Product p = Product.crearProducto(this.db, columns, values);
+        
+        this.db.createConnection();
+        
+        String table = " products_categories ";
+        
+        columns = new String[2]; columns[0] = "category_id"; columns[1] = "product_id";
+        values  = new Object[2]; values[0]  = this.id; values[1] = p.getID();
+        
+        cambios = db.insertIntoTable(table, columns, values);
+        
+        this.db.destroyConnection();
+        
+        if(cambios > 0)
+            return p;
+        else
+            return null;
+    }
+    
+    public static Category crearCategoria(Database db, String[] columns, Object[] values) throws SQLException
+    {
+        Category c = null;
+        
+        db.createConnection();
+        
+        String table = " categories ";
+        
+        int exito = db.insertIntoTable(table, columns, values);
+        
+        
+        if(exito > 0)
+        {
+            ResultSet rs = db.searchInTableByValue(table, columns, values, true);
+            if(rs.next())
+            {
+                Long id = (Long) rs.getObject("id");
+                c = new Category(db, id);
+            }
+        }
+        
+        db.destroyConnection();
+        
+        return c;
     }
 }

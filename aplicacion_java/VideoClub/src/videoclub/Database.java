@@ -90,6 +90,17 @@ public class Database
         return rs;
     }
     
+    public ResultSet searchInTableByValue(String table, String[] columns, Object[] values, boolean condi) throws SQLException
+    {
+        String[] conditions = new String[columns.length];
+        for (int i = 0; i < conditions.length; i++)
+        {
+            if(condi) conditions[i] = " and ";
+            else      conditions[i] = " or ";
+        }
+        return searchInTableByValue(this.con, table, columns, values, conditions);
+    }
+    
     public ResultSet searchInTableByValue(String table, String[] columns, Object[] values, String[] conditions) throws SQLException
     {
         return searchInTableByValue(this.con, table, columns, values, conditions);
@@ -103,7 +114,10 @@ public class Database
             
             for (int i = 0; i < columns.length - 1; i++)
             {
-                query += columns[i] + " = ? " + conditions[i];
+                if(values[i] != null)
+                    query += columns[i] + " = ? " + conditions[i];
+                else
+                    query += columns[i] + " is ? " + conditions[i];
             }
             
             query += columns[columns.length - 1] + " = ? ";
@@ -193,7 +207,10 @@ public class Database
             
             for (int i = 0; i < columnsConditions.length - 1; i++)
             {
-                query += columnsConditions[i] + " = ?, ";
+                if(valuesConditions[i] != null)
+                    query += columnsConditions[i] + " = ?, ";
+                else
+                    query += columnsConditions[i] + " is ?, ";
             }
             
             query += columnsConditions[columnsConditions.length - 1] + " = ? ";
@@ -235,7 +252,10 @@ public class Database
             
             for (int i = 0; i < columns.length - 1; i++)
             {
-                query += columns[i] + " = ? " + conditions[i];
+                if(values[i] != null)
+                    query += columns[i] + " = ? " + conditions[i];
+                else
+                    query += columns[i] + " is ? " + conditions[i];
             }
             
             query += columns[columns.length - 1] + " = ? ";

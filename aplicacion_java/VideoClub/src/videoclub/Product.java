@@ -25,6 +25,11 @@ public class Product
         this.id = product_id;
     }
     
+    public Long getID()
+    {
+        return this.id;
+    }
+    
     public HashMap<String, Object> getAttributes() throws SQLException
     {
         HashMap<String, Object> atributos = new HashMap<String, Object>();
@@ -38,12 +43,12 @@ public class Product
         
         if(rs.next())
         {
-            String code = (String) rs.getObject("code");
-            String name = (String) rs.getObject("name");
-            String description = (String) rs.getObject("description");
-            Date date = (Date) rs.getObject("date");
-            Double price = (Double) rs.getObject("price");
-            Integer stock = (Integer) rs.getObject("stock");
+            String code        = (String)  rs.getObject("code");
+            String name        = (String)  rs.getObject("name");
+            String description = (String)  rs.getObject("description");
+            Date date          = (Date)    rs.getObject("date");
+            Double price       = (Double)  rs.getObject("price");
+            Integer stock      = (Integer) rs.getObject("stock");
             
             atributos.put("id"         , this.id);
             atributos.put("code"       , code);
@@ -57,5 +62,30 @@ public class Product
         this.db.destroyConnection();
         
         return atributos;
+    }
+    
+    public static Product crearProducto(Database db, String[] columns, Object[] values) throws SQLException
+    {
+        Product p = null;
+        
+        db.createConnection();
+        
+        String table = " products ";
+        
+        int exito = db.insertIntoTable(table, columns, values);
+        
+        if(exito > 0)
+        {
+            ResultSet rs = db.searchInTableByValue(table, columns, values, true);
+            if(rs.next())
+            {
+                Long id = (Long) rs.getObject("id");
+                p = new Product(db, id);
+            }
+        }
+        
+        db.destroyConnection();
+        
+        return p;
     }
 }

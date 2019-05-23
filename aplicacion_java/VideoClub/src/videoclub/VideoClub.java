@@ -11,6 +11,7 @@ package videoclub;
  */
 import java.util.Map;
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -83,8 +84,40 @@ public class VideoClub
         env.put("DB_USER", "usuario");
         env.put("DB_PASS", "usuario");
         
-        Database db = new Database(pb);
-        
-        listarCategorias(db);
+        try
+        {
+            Database db = new Database(pb);
+            //listarCategorias(db);
+
+            String[] columns = new String[] { "id", "category_id", "name" };
+            Object[] values  = new Object[] { 5, null, "Videojuegos"};
+
+            Category c = Category.crearCategoria(db, columns, values);
+
+            HashMap<String, Object> ac = c.getAttributes();
+            System.out.println("Categoria => " + ac.get("name"));
+            
+            c.updateCategory(columns, values);
+            long id            =  3;
+            String code        = "1";
+            String name        = "Nico nico niii";
+            String description = "Baka baka hentai!";
+            Double price       = 25.5;
+            Integer stock      = 6;
+
+            Instant t = Instant.now(); long miliseconds = t.toEpochMilli();
+            Date date          = new Date(miliseconds);
+
+            columns = new String[] { "id", "code", "name", "description", "price", "stock", "date" };
+            values  = new Object[] { id, code, name, description, price, stock, date };
+            //Product p = Product.crearProducto(db, columns, values);
+            Product p = c.crearProducto(columns, values);
+
+            HashMap<String, Object> ap = p.getAttributes();
+            System.out.println("Producto => " + ap.get("name"));
+        } catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+        }
     }
 }
