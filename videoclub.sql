@@ -14,7 +14,7 @@ create table users(
 
 create table roles(
 	id bigint primary key,
-	string varchar(255)
+	name varchar(255)
 );
 
 create table users_roles(

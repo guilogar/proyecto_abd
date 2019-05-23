@@ -1,0 +1,17 @@
+/* Administración de Bases de Datos 2018/2019 */
+/******* Log *******/
+
+Podemos distinguir 3 tipos de Logs en MySQL:
+
+    - Log de errores. Contiene información sobre los errores del servidor.
+    - Log General. Almacena el registro de consultas.
+    - Log Slow Querys. Almacena consultas que hayan superado un tiempo X de ejecución.
+
+Nos centraremos en el Log General. Si accedemos a la configuración de MySQL (/etc/mysql/conf.d/mysqld_safe_syslog.cnf)
+encontraremos tanto la ruta del log como su activación:
+
+    general_log_file        = /var/log/mysql/mysql.log
+    general_log             = 1
+
+Si queremos activar el Log General en tiempo de ejecución podremos usar SET GLOBAL general_log = 'ON';
+En este log, podremos observar la conexión (hora y usuario) y las consultas realizadas por dicha conexión.
