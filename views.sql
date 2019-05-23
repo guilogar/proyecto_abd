@@ -15,6 +15,7 @@ SELECT
   name,
   surname,
   dni,
+  address,
   rol_id
 FROM
   users
