@@ -48,9 +48,9 @@ public class Category
             Long category_id = (Long) rs.getObject("category_id");
             String name = (String) rs.getObject("name");
             
-            atributos.put("id", this.id);
+            atributos.put("id",          this.id);
             atributos.put("category_id", category_id);
-            atributos.put("name", name);
+            atributos.put("name",        name);
         }
         
         this.db.destroyConnection();
@@ -82,6 +82,11 @@ public class Category
     {
         HashMap<String, Object> atributos = getAttributes();
         this.db.createConnection();
+        
+        this.db.deleteInTable(
+            " products_categories ", new String[] { "category_id" },
+            new Object[] { this.id }, true
+        );
         
         Set<String> k        = atributos.keySet();
         Collection<Object> v = (Collection<Object>) atributos.values();

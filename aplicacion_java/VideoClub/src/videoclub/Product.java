@@ -55,7 +55,7 @@ public class Product
             atributos.put("id"         , this.id);
             atributos.put("code"       , code);
             atributos.put("name"       , name);
-            atributos.put("description", name);
+            atributos.put("description", description);
             atributos.put("date"       , date);
             atributos.put("price"      , price);
             atributos.put("stock"      , stock);
@@ -86,10 +86,15 @@ public class Product
         return atributos;
     }
     
-    public boolean destroyProducts() throws SQLException
+    public boolean destroyProduct() throws SQLException
     {
         HashMap<String, Object> atributos = getAttributes();
         this.db.createConnection();
+        
+        this.db.deleteInTable(
+            " products_categories ", new String[] { "product_id" },
+            new Object[] { this.id }, true
+        );
         
         Set<String> k        = atributos.keySet();
         Collection<Object> v = (Collection<Object>) atributos.values();

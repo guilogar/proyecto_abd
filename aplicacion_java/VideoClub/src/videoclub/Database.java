@@ -292,7 +292,6 @@ public class Database
             }
             
             query += columns[columns.length - 1] + " = ? ";
-            
             PreparedStatement ps = con.prepareStatement(query);
             
             int i = 1;

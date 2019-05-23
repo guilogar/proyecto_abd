@@ -116,10 +116,13 @@ public class VideoClub
 
             HashMap<String, Object> ap = p.getAttributes();
             System.out.println("Producto => " + ap.get("name"));
+            
+            c.destroyCategory();
+            p.destroyProduct();
         } catch(Exception ex)
         {
             System.err.println(ex.getMessage());
-            throw ex;
+            //throw ex;
         }
     }
 }
