@@ -62,7 +62,7 @@ public class VideoClub
             Database db = new Database(pb);
             //listarCategorias(db);
             
-            long id = 19;
+            long id = 1;
             String[] columns = new String[] { "id", "category_id", "name" };
             Object[] values  = new Object[] { id, null, "Videojuegos"};
 
@@ -92,6 +92,9 @@ public class VideoClub
             productos.put(p, 2L);
             productos.put(p, 6L);
             
+            // insert into statuses(id, name) values(1, 'estado');
+            // insert into clients(id, user_id, address) values(1, NULL, 'debajo de un puente');
+            // insert into workers(id, name, surname, dni, phone, email, iban, ss) values(1, 'nombre', 'surname', 'dni', 'phone', 'email', 'iban', 'ss');
             Order o = Order.crearOrder(db, columns, values, productos);
             
             c.destroyCategory();

@@ -101,6 +101,11 @@ public class Product
             new Object[] { this.id }, true
         );
         
+        this.db.deleteInTable(
+            " orders_products ", new String[] { "product_id" },
+            new Object[] { this.id }, true
+        );
+        
         Set<String> k        = atributos.keySet();
         Collection<Object> v = (Collection<Object>) atributos.values();
         
